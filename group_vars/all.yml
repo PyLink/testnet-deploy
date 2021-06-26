@@ -4,7 +4,6 @@ docker_compose_networks:
 
 ### General settings
 ### These are applied to all IRCds to simplify configuration
-network_name: "pylink-testnet"
 network_suffix: "testnet.local"
 links_trusted_ip:
 - 172.17.0.0/16  # docker default
@@ -43,6 +42,7 @@ ircds:
     server_name: "inspircd.{{ network_suffix }}"
     server_id: "001"
     server_desc: "InspIRCd Test Server"
+    network_name: "testnet-insp"
 
     service:
       image: inspircd/inspircd-docker:3.10
