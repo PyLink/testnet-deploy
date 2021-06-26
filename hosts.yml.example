@@ -1,0 +1,21 @@
+testnet:
+  hosts:
+    TARGET.SERVER.ADDRESS:
+      oper_name: yourname
+      oper_pass: yourpass
+      oper_hosts:
+      - "*@*.example.org"
+
+      # You can also append settings onto each "services:" entry in docker-compose
+      # image_settings:
+      #   inspircd:
+      #     networks:
+      #       default:
+      #         ipv4_address: 172.22.108.4
+      #         ipv6_address: "fd86:bad:11b7:d::6667:4",
+
+      # Or define a networks section for compose
+      # docker_compose_networks:
+      #   default:
+      #     name: net42
+      #     external: true

@@ -1,0 +1,604 @@
+<module name="md5">
+<module name="sha256">
+
+<module name="alias">
+<module name="allowinvite">
+<module name="alltime">
+<module name="anticaps">
+<module name="auditorium">
+<auditorium opvisible="no" opcansee="no" opercansee="yes">
+<module name="autoop">
+<module name="banexception">
+<module name="banredirect">
+<module name="blockcolor">
+<module name="botmode">
+<module name="callerid">
+<module name="cap">
+<module name="cban">
+<cban glob="yes">
+<module name="chancreate">
+<module name="chanfilter">
+<module name="chanhistory">                                                                   #
+<chanhistory bots="yes"
+            enableumode="yes"
+            maxlines="50"
+            prefixmsg="yes">
+<module name="channames">
+<channames
+	denyrange="2,3"
+	allowrange="">
+<module name="channelban">
+<module name="check">
+<module name="chghost">
+<module name="chgident">
+<module name="chgname">
+<module name="classban">
+<module name="clearchan">
+
+#<module name="cloaking">
+#<cloak mode="half"
+#       key="changeme"
+#       domainparts="3"
+#       prefix="net-"
+#       ignorecase="no">
+#
+#<cloak mode="full"
+#       key="changeme"
+#       prefix="net-"
+#       ignorecase="no">
+
+<module name="commonchans">
+<module name="conn_umodes">
+<module name="conn_waitpong">
+<waitpong sendsnotice="no" killonbadreply="yes">
+<module name="cycle">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Connectban: Provides IP connection throttling. Any IP range that
+# connects too many times (configurable) in an hour is Z-lined for a
+# (configurable) duration, and their count resets to 0.
+#<module name="connectban">
+#
+# ipv4cidr and ipv6cidr allow you to turn the comparison from
+# individual IP addresses (32 and 128 bits) into CIDR masks, to allow
+# for throttling over whole ISPs/blocks of IPs, which may be needed to
+# prevent attacks.
+#
+# This allows for 10 connections in an hour with a 10 minute ban if
+# that is exceeded.
+#<connectban threshold="10" duration="10m" ipv4cidr="32" ipv6cidr="128"
+# A custom ban message may optionally be specified.
+# banmessage="Your IP range has been attempting to connect too many times in too short a duration. Wait a while, and you will be able to connect.">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Connection throttle module.
+#<module name="connflood">
+#
+#-#-#-#-#-#-#-#-#-#-#- CONNTHROTTLE CONFIGURATION  -#-#-#-#-#-#-#-#-#-#
+#  period, maxconns -  Amount of connections per <period>.
+#
+#  timeout           -  Time to wait after the throttle was activated
+#                       before deactivating it. Be aware that the time
+#                       is seconds + timeout.
+#
+#  quitmsg           -  The message that users get if they attempt to
+#                       connect while the throttle is active.
+#
+#  bootwait          -  Amount of time in seconds to wait before enforcing
+#                       the throttling when the server just booted.
+#
+#<connflood period="30" maxconns="3" timeout="30"
+#   quitmsg="Throttled" bootwait="2m">
+
+<module name="customprefix">
+#
+# name       The name of the mode, must be unique from other modes.
+# letter     The letter used for this mode. Required.
+# prefix     The prefix used for nicks with this mode. Not required.
+# rank       A numeric rank for this prefix, defining what permissions it gives.
+#            The rank of voice, halfop and op is 10000, 20000, and 30000,
+#            respectively.
+# ranktoset  The numeric rank required to set this mode. Defaults to rank.
+# ranktounset The numeric rank required to unset this mode. Defaults to ranktoset.
+# depriv     Can you remove the mode from yourself? Defaults to yes.
+<customprefix name="founder" letter="q" prefix="~" rank="50000" ranktoset="50000">
+<customprefix name="admin" letter="a" prefix="&amp;" rank="40000" ranktoset="50000">
+<customprefix name="halfop" letter="h" prefix="%" rank="20000" ranktoset="30000">
+#
+# You can also override the configuration of prefix modes added by both the core
+# and other modules by adding a customprefix tag with change="yes" specified.
+# <customprefix name="op" change="yes" rank="30000" ranktoset="30000">
+# <customprefix name="voice" change="yes" rank="10000" ranktoset="20000" depriv="no">
+#
+# Do /RELOADMODULE customprefix after changing the settings of this module.
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Custom title module: Adds the /TITLE command which allows for trusted
+# users to gain a custom whois line and an optional vhost can be
+# specified.
+#<module name="customtitle">
+#
+#-#-#-#-#-#-#-#-#-#-  CUSTOM TITLE CONFIGURATION   -#-#-#-#-#-#-#-#-#-#
+#  name     - The username used to identify.
+#  password - The password used to identify.
+#  hash     - The hash for the specific user's password (optional).
+#             password_hash and a hashing module must be loaded
+#             for this to work.
+#  host     - Allowed hostmask (optional).
+#  title    - Title shown in whois.
+#  vhost    - Displayed host (optional).
+#
+#<title name="foo" password="bar" title="Official Chat Helper">
+#<title name="bar" password="foo" host="ident@test.org" title="Official Chat Helper" vhost="helper.test.org">
+#<title name="foo" password="$2a$10$UYZ4OcO8NNTCCGyCdY9SK.2GHiqGgxZfHFPOPmWuxEVWVQTtoDC7C" hash="bcrypt" title="Official Chat Helper">
+
+<module name="deaf">
+#
+#-#-#-#-#-#-#-#-#-#-#-#-  DEAF CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#
+#  bypasschars       - Characters that bypass deaf to a regular user.
+#  bypasscharsuline  - Characters that bypass deaf to a U-lined user (services).
+#                      Both of these take a list of characters that must match
+#                      the starting character of a message.
+#                      If 'bypasscharsuline' is empty, then 'bypasschars' will
+#                      match for both regular and U-lined users.
+#  enableprivdeaf    - Whether to enable user mode +D (privdeaf).
+#  privdeafuline     - Whether U-lined users bypass user mode +D (privdeaf).
+#
+#<deaf bypasschars="" bypasscharsuline="!" enableprivdeaf="no" privdeafuline="yes">
+
+<module name="delayjoin">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Delay message module: Adds the channel mode +d which disallows a user
+# from talking in the channel unless they've been joined for X seconds.
+# Settable using /MODE #chan +d 30
+#<module name="delaymsg">
+# Set allownotice to no to disallow NOTICEs too. Defaults to yes.
+#<delaymsg allownotice="no">
+
+<module name="dnsbl">
+#                                                                     #
+# For configuration options please see the docs page for dnsbl at     #
+# https://docs.inspircd.org/3/modules/dnsbl. You can also use one or  #
+# more of the following example configs for popular DNSBLs:           #
+#                                                                     #
+# DroneBL (https://dronebl.org)                                       #
+<include file="providers/dronebl.conf">
+#                                                                     #
+# EFnet RBL (https://rbl.efnetrbl.org)                                #
+<include file="providers/efnet-rbl.conf">
+#                                                                     #
+# dan.me.uk Tor exit node DNSBL (https://www.dan.me.uk/dnsbl)         #
+<include file="providers/torexit.conf">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Exempt channel operators module: Provides support for allowing      #
+# users of a specified channel status to be exempt from some channel  #
+# restriction modes. Supported restrictions are:                      #
+# anticaps, auditorium-see, auditorium-vis, blockcaps, blockcolor,    #
+# censor, filter, flood, nickflood, noctcp, nonick, nonotice,         #
+# regmoderated, stripcolor, and topiclock.                            #
+# See <options:exemptchanops> in inspircd.conf.example for a more     #
+# detailed list of the restriction modes that can be exempted.        #
+# These are settable using: /MODE #chan +X <restriction>:<status>     #
+# Furthermore, the exemptions configured in <options:exemptchanops>   #
+# can also be negated by using: /MODE #chan +X <restriction>:*        #
+<module name="exemptchanops">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Filter module: Provides message filtering, similar to SPAMFILTER.   #
+#<module name="filter">
+#                                                                     #
+# This module depends upon a regex provider such as regex_pcre or     #
+# regex_glob to function. You must specify which of these you want    #
+# the filter module to use via the tag below.                         #
+#                                                                     #
+# Valid engines are:                                                  #
+#                                                                     #
+# glob   - Glob patterns, provided via regex_glob.                    #
+# pcre   - PCRE regexps, provided via regex_pcre, needs libpcre.      #
+# tre    - TRE regexps, provided via regex_tre, requires libtre.      #
+# posix  - POSIX regexps, provided via regex_posix, not available     #
+#          on Windows, no dependencies on other operating systems.    #
+# stdlib - stdlib regexps, provided via regex_stdlib, see comment     #
+#          at the <module> tag for info on availability.              #
+#                                                                     #
+# If notifyuser is set to no, the user will not be notified when      #
+# their message is blocked.                                           #
+#                                                                     #
+# If warnonselfmsg is set to yes when a user sends a message to       #
+# themself that matches a filter the filter will be ignored and a     #
+# warning will be sent to opers instead. This stops spambots which    #
+# send their spam message to themselves first to check if it is being #
+# filtered by the server.                                             #
+#<filteropts engine="glob" notifyuser="yes" warnonselfmsg="no">
+#                                                                     #
+# Your choice of regex engine must match on all servers network-wide. #
+#                                                                     #
+# To learn more about the configuration of this module, read          #
+# examples/filter.conf.example, which covers the various types of     #
+# filters and shows how to add exemptions.                            #
+#                                                                     #
+#-#-#-#-#-#-#-#-#-#-#-  FILTER  CONFIGURATION  -#-#-#-#-#-#-#-#-#-#-#-#
+#                                                                     #
+# Optional - If you specify to use the filter module, then            #
+# specify below the path to the filter.conf file, or define some      #
+# <keyword> tags.                                                     #
+#                                                                     #
+#<include file="examples/filter.conf.example">
+
+<module name="gecosban">
+<module name="globops">
+#<module name="globalload">
+
+<module name="helpop">
+<include file="helpop.conf">
+
+<module name="hidechans">
+<hidechans affectsopers="no">
+<module name="hideoper">
+<module name="ircv3">
+<ircv3 accountnotify="yes" awaynotify="yes" extendedjoin="yes">
+<module name="ircv3_accounttag">
+<module name="ircv3_batch">
+<module name="ircv3_capnotify">
+<module name="ircv3_chghost">
+<module name="ircv3_ctctags">
+<ctctags allowclientonlytags="yes">
+<module name="ircv3_echomessage">
+<module name="ircv3_invitenotify">
+<module name="ircv3_labeledresponse">
+<module name="ircv3_msgid">
+<module name="ircv3_servertime">
+<module name="joinflood">
+<joinflood duration="1m"
+           bootwait="60s"
+           splitwait="60s">
+<module name="kicknorejoin">
+<module name="knock">
+<module name="lockserv">
+<module name="messageflood">
+#<messageflood notice="1.0" privmsg="1.0" tagmsg="0.2">
+<module name="mlock">
+<module name="monitor">
+<monitor maxentries="30">
+<module name="nickflood">
+<nickflood duration="1m">
+<module name="noctcp">
+<noctcp enableumode="yes">
+<module name="nokicks">
+<module name="nonicks">
+<module name="nopartmsg">
+<module name="nonotice">
+<module name="ojoin">
+<ojoin prefix="!" notice="no" op="yes">
+<module name="operchans">
+<module name="operlog">
+<module name="override">
+<override noisy="yes" requirekey="no" enableumode="yes">
+<module name="opermodes">
+
+#<module name="passforward">
+
+<passforward
+		# nick: nick to forward connect passwords to.
+		nick="NickServ"
+
+		# forwardmsg: Message to send to users using a connect password.
+		# $nick will be the users' nick, $nickrequired will be the nick
+		# of where the password is going (the nick above).
+		# You can also use $user for the user ident string.
+		forwardmsg="NOTICE $nick :*** Forwarding PASS to $nickrequired"
+
+		# cmd: Command for the user to run when it receives a connect
+		# password.
+		cmd="SQUERY $nickrequired :IDENTIFY $pass">
+
+<module name="password_hash">
+#-#-#-#-#-#-#-#-#-# PASSWORD HASH CONFIGURATION #-#-#-#-#-#-#-#-#-#-#-#
+#
+# To use this module, you must define a hash type for each oper's
+# password you want to hash. For example:
+#
+#     <oper name="Brain"
+#           host="ident@dialup15.isp.test.com"
+#           hash="bcrypt"
+#           password="$2a$10$Mss9AtHHslZTLBrXqM0FB.JBwD.UTSu8A48SfrY9exrpxbsRiRTbO"
+#           type="NetAdmin">
+#
+# If you are using a hash algorithm which does not perform salting you can use
+# HMAC to salt your passwords in order to prevent them from being looked up in
+# a rainbow table.
+#
+#    hash="hmac-sha256" password="lkS1Nbtp$CyLd/WPQXizsbxFUTqFRoMvaC+zhOULEeZaQkUJj+Gg"
+#
+# Generate hashes using the /MKPASSWD command on the server.
+# Don't run it on a server you don't trust with your password.
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# PBKDF2 module: Allows other modules to generate PBKDF2 hashes,
+# usually for cryptographic uses and security.
+# This module relies on other hash providers (e.g. SHA256).
+<module name="pbkdf2">
+#
+# iterations: Iterations the hashing function runs when generating new
+# hashes.
+# length: Length in bytes of the derived key.
+#<pbkdf2 iterations="12288" length="32">
+# You can override these values with specific values
+# for specific providers if you want to. Example given for SHA256.
+#<pbkdf2prov hash="sha256" iterations="24576">
+
+<module name="permchannels">
+#
+# If you like, this module can write a config file of permanent channels
+# whenever +P is set, unset, or the topic/modes on a +P channel is changed.
+# If you want to do this, set the filename below, and uncomment the include.
+#
+# If 'listmodes' is yes then all list modes (+b, +I, +e, +g...) will be
+# saved. Defaults to no.
+#
+# 'saveperiod' determines how often to check if the database needs to be
+# saved to disk. Defaults to every five seconds.
+#<permchanneldb filename="permchannels.conf"
+#               listmodes="yes"
+#               saveperiod="5s">
+#<include file="permchannels.conf" missingokay="yes">
+#
+# You may also create channels on startup by using the <permchannels> block.
+#<permchannels channel="#opers" modes="isP" topic="Opers only.">
+
+<module name="muteban">
+#
+# If notifyuser is set to no, the user will not be notified when
+# their message is blocked.
+#<muteban notifyuser="yes">
+
+<module name="redirect">
+<module name="regex_glob">
+<module name="regex_stdlib">
+#
+# Specify the regular expression engine to use here. Valid settings are
+# bre, ere, awk, grep, egrep, ecmascript (default if not specified).
+#<stdregex type="ecmascript">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Repeat module: Allows to block, kick or ban upon similar messages
+# being uttered several times. Provides channel mode +E.
+#
+# Syntax: [~|*]<lines>:<sec>[:<difference>][:<backlog>]
+#         ~ is to block, * is to ban, default is kick.
+# lines      - In mode 1, the amount of lines that has to match consecutively.
+#              In mode 2, the size of the backlog to keep for matching.
+# seconds    - How old the message has to be before it's invalidated.
+# difference - Edit distance, in percent, between two strings to trigger on.
+# backlog    - When set, the function goes into mode 2. In this mode the
+#              function will trigger if this many of the last <lines> matches.
+#
+# As this module can be rather CPU-intensive, it comes with some options.
+# maxbacklog  - Maximum size that can be specified for backlog. 0 disables
+#               multiline matching.
+# maxdistance - Max percentage of difference between two lines we'll allow
+#               to match. Set to 0 to disable edit-distance matching.
+# maxlines    - Max lines of backlog to match against.
+# maxtime     - Maximum period of time a user can set. 0 to allow any.
+# size        - Maximum number of characters to check for, can be used to
+#               truncate messages before they are checked, resulting in
+#               less CPU usage. Increasing this beyond 512 doesn't have
+#               any effect, as the maximum length of a message on IRC
+#               cannot exceed that.
+# kickmessage - Kick message when * is specified
+#<repeat maxbacklog="20"
+#        maxdistance="50"
+#        maxlines="20"
+#        maxtime="0s"
+#        size="512"
+#        kickmessage="Repeat flood">
+#<module name="repeat">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Restricted channels module: Allows only opers with the
+# channels/restricted-create priv and/or registered users to
+# create channels.
+#
+# You probably *DO NOT* want to load this module on a public network.
+#
+#<module name="restrictchans">
+#
+# allowregistered: should registered users be allowed to bypass the restrictions?
+#<restrictchans allowregistered="no">
+#
+# Allow any channel matching #user-* to be created, bypassing restrictchans checks
+#<allowchannel name="#user-*">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Restrict message module: Allows users to only message opers.
+#
+# You probably *DO NOT* want to load this module on a public network.
+#
+#<module name="restrictmsg">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# R-line module: Ban users through regular expression patterns.
+#<module name="rline">
+#
+#-#-#-#-#-#-#-#-#-#-#-#- RLINE CONFIGURATION -#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# If you wish to re-check a user when they change nickname (can be
+# useful under some situations, but *can* also use CPU with more users
+# on a server) then set 'matchonnickchange' to yes.
+# If you additionally want Z-lines to be added on matches, then
+# set 'zlineonmatch' to yes.
+# Also, this is where you set what Regular Expression engine is to be
+# used. If you ever change it while running, all of your R-lines will
+# be wiped. This is the regex engine used by all R-lines set, and
+# regex_<engine> must be loaded, or rline will be non-functional
+# until you load it or change the engine to one that is loaded.
+#
+#<rline matchonnickchange="yes" zlineonmatch="no" engine="pcre">
+#
+# Generally, you will NOT want to use 'glob' here, as this turns an
+# R-line into just another G-line. The exceptions are that R-lines will
+# always use the full "nick!user@host realname" string, rather than only
+# user@host, but beware that only the ? and * wildcards are available,
+# and are the only way to specify where the space can occur if you do
+# use glob. For this reason, is recommended to use a real regex engine
+# so that at least \s or [[:space:]] is available.
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# RMODE module: Adds the /RMODE command.
+# Allows channel operators to remove list modes en masse, optionally
+# matching a glob-based pattern.
+# Syntax: /RMODE <channel> <mode> [<pattern>]
+# E.g. '/RMODE #channel b m:*' will remove all mute extbans on the channel.
+#<module name="rmode">
+
+<module name="sajoin">
+<module name="sakick">
+<module name="samode">
+<module name="sanick">
+<module name="sapart">
+<module name="saquit">
+<module name="satopic">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# SASL authentication module: Provides support for IRC Authentication
+# Layer via AUTHENTICATE. Note: You also need to have cap loaded
+# for SASL to work.
+#<module name="sasl">
+
+# You must define <sasl:target> to the name of your services server so
+# that InspIRCd knows where to send SASL authentication messages and
+# when it should enable the SASL capability.
+# You can also define <sasl:requiressl> to require users to use TLS (SSL)
+# in order to be able to use SASL.
+#<sasl target="services.mynetwork.com"
+#      requiressl="yes">
+
+
+<module name="securelist">
+#
+#-#-#-#-#-#-#-#-#-# SECURELIST CONFIGURATION -#-#-#-#-#-#-#-#-#-#-#-#-#
+#                                                                     #
+# Securelist can be harmful to some IRC search engines. To prevent    #
+# securelist blocking these sites from listing, define exception tags #
+# as shown below:                                                     #
+#<securehost exception="*@*.netsplit.de">
+#                                                                     #
+# exemptregistered - Whether the waiting period applies to users who  #
+#                    are logged in to a services account.             #
+#                    Defaults to no.                                  #
+#                                                                     #
+# showmsg - Whether to tell users that they need to wait for a while  #
+#           before they can use the /LIST command.                    #
+#           Defaults to no.                                           #
+#                                                                     #
+# waittime - The time period that a user must be connected for before #
+#            they can use the /LIST command.                          #
+#             Defaults to 1 minute.                                   #
+#                                                                     #
+<securelist exemptregistered="yes"
+            showmsg="yes"
+            waittime="63s">
+
+<module name="servprotect">
+<module name="seenicks">
+<module name="services_account">
+<module name="sethost">
+<module name="setident">
+<module name="setname">
+<module name="serverban">
+<module name="sha1">
+<module name="showwhois">
+#
+# If you wish, you may also let users set this mode. Only opers with the
+# users/auspex priv will see real hosts of people, though.
+#<showwhois opersonly="yes"
+#
+# You may also set whether or not users should receive whois notices,
+# should they be /WHOIS'd by an oper.
+#showfromopers="yes">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Shun module: Provides the /SHUN command, which stops a user from
+# executing all except configured commands.
+# This module is oper-only.
+# To use, SHUN must be in one of your oper class blocks.
+#<module name="shun">
+#
+# Configuration:
+#
+#  affectopers: Whether server operators are exempt from shuns. This
+#               option is deprecated; you should instead give exempt
+#               server operators the servers/ignore-shun privilege.
+#
+#  allowconnect: Whether to only apply shuns to users who are fully
+#                connected to the server.
+#
+#  allowtags: Whether to allow client tags to be attached to enabled
+#             commands.
+#
+#  cleanedcommands: The commands that, if enabled, should be cleaned
+#                    of any message content if a shunned user tries to
+#                    execute them.
+#
+#  enabledcommands: The commands that a shunned user is allowed to
+#                   execute.
+#
+#  notifyuser: Whether to notify shunned users that a command they tried
+#              to execute has been blocked.
+#
+#<shun enabledcommands="ADMIN OPER PING PONG QUIT PART JOIN"
+#      cleanedcommands="AWAY PART QUIT"
+#      affectopers="no"
+#      allowconnect="no"
+#      allowtags="no"
+#      notifyuser="yes">
+
+
+<module name="sslmodes">
+<sslmodes enableumode="yes">
+<module name="sslrehashsignal">
+<module name="ssl_gnutls">
+
+<module name="sslinfo">
+<module name="svshold">
+# SVSHOLD does not generate server notices by default, you can turn
+# notices on by uncommenting the next line.
+#<svshold silent="no">
+<module name="swhois">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Timed bans module: Adds timed channel bans with the /TBAN command.
+#<module name="timedbans">
+# By default, it sends a notice to channel operators when timed ban is
+# set and when it is removed by server.
+#<timedbans sendnotice="yes">
+
+<module name="tline">
+<module name="topiclock">
+<module name="uhnames">
+<module name="uninvite">
+<module name="userip">
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# Vhost module: Adds the VHOST command which allows for adding virtual
+# hosts which are accessible using a username and password in the config.
+#<module name="vhost">
+#
+#-#-#-#-#-#-#-#-#-#-#- VHOST CONFIGURATION   -#-#-#-#-#-#-#-#-#-#-#-#-#
+#                                                                     #
+# user       - Username for the vhost.                                #
+#                                                                     #
+# pass       - Password for the vhost.                                #
+#                                                                     #
+# hash       - The hash for the specific user (optional)              #
+#              password_hash and a hashing module must be loaded for  #
+#              this to work.                                          #
+#                                                                     #
+# host       - Vhost to set.                                          #
+#
+#<vhost user="some_username" pass="some_password" host="some.host.test.cc">
+#<vhost user="foo" password="$2a$10$iTuYLT6BRhRlOgzfsW9oPe62etW.oXwSpyKw5rJit64SGZanLXghO" hash="bcrypt" host="some.other.host.example.com">
+
+<module name="spanningtree">

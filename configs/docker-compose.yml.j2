@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+{% for server, details in ircds.items() %}
+  {{ server }}:
+{% set service_block = details.service %}
+{# Allow overriding docker-compose service options globally and per container #}
+{% if image_settings and "global" in image_settings %}
+{% set _dummy = service_block.update(image_settings.global) %}
+{% endif %}
+{% if image_settings and server in image_settings %}
+{% set _dummy = service_block.update(image_settings[server]) %}
+{% endif %}
+    {{ service_block | to_yaml | indent(width=4) }}
+{% endfor %}
+
+{# Custom network definitions #}
+{% if docker_compose_networks %}
+networks:
+  {{ docker_compose_networks | to_yaml | indent(width=2) }}
+{% endif %}

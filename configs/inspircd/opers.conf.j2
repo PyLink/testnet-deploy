@@ -1,0 +1,77 @@
+<class
+     name="Shutdown"
+
+     # commands: Oper-only commands that opers of this class can run.
+     commands="DIE RESTART REHASH LOADMODULE UNLOADMODULE RELOADMODULE GLOADMODULE GUNLOADMODULE GRELOADMODULE"
+
+     # privs: Special privileges that users with this class may utilise.
+     #  VIEWING:
+     #   - channels/auspex: allows opers with this priv to see more details about channels than normal users.
+     #   - users/auspex: allows opers with this priv to view more details about users than normal users, e.g. real host and IP.
+     #   - users/channel-spy: allows opers with this priv to view the private/secret channels that a user is on.
+     #   - servers/auspex: allows opers with this priv to see more details about server information than normal users.
+     #  ACTIONS:
+     #   - users/mass-message: allows opers with this priv to PRIVMSG and NOTICE to a server mask (e.g. NOTICE $*).
+     #   - users/samode-usermodes: allows opers with this priv to change the user modes of any other user using /SAMODE.
+     #  PERMISSIONS:
+     #   - channels/ignore-noctcp: allows opers with this priv to send a CTCP to a +C channel.
+     #   - channels/ignore-nonicks: allows opers with this priv to change their nick when on a +N channel.
+     #   - channels/restricted-create: allows opers with this priv to create channels if the restrictchans module is loaded.
+     #   - users/flood/increased-buffers: allows opers with this priv to send and receive data without worrying about being disconnected for exceeding limits (*NOTE).
+     #   - users/flood/no-fakelag: prevents opers from being penalized with fake lag for flooding (*NOTE).
+     #   - users/flood/no-throttle: allows opers with this priv to send commands without being throttled (*NOTE).
+     #   - users/ignore-callerid: allows opers with this priv to message people using callerid without being on their callerid list.
+     #   - users/ignore-commonchans: allows opers with this priv to send a message to a +c user without sharing common channels.
+     #   - users/ignore-noctcp: allows opers with this priv to send a CTCP to a +T user.
+     #   - users/ignore-privdeaf: allows opers with this priv to message users with +D set.
+     #   - users/sajoin-others: allows opers with this priv to /SAJOIN users other than themselves.
+     #   - servers/ignore-shun: allows opers with this priv to ignore shuns.
+     #   - servers/use-disabled-commands: allows opers with this priv to use disabled commands.
+     #   - servers/use-disabled-modes: allows opers with this priv to use disabled modes.
+     #
+     # *NOTE: These privs are potentially dangerous, as they grant users with them the ability to hammer your server's CPU/RAM as much as they want, essentially.
+     privs="users/auspex channels/auspex servers/auspex users/mass-message users/flood/no-throttle users/flood/increased-buffers"
+
+     # usermodes: Oper-only user modes that opers with this class can use.
+     usermodes="*"
+
+     # chanmodes: Oper-only channel modes that opers with this class can use.
+     chanmodes="*"
+
+     # snomasks: The snomasks that opers with this class can use.
+     snomasks="*">
+
+<class name="SACommands" commands="SAJOIN SAPART SANICK SAQUIT SATOPIC SAKICK SAMODE OJOIN">
+<class name="ServerLink" commands="CONNECT SQUIT RCONNECT RSQUIT MKPASSWD ALLTIME SWHOIS LOCKSERV UNLOCKSERV" usermodes="*" chanmodes="*" privs="servers/auspex" snomasks="Cc">
+<class name="BanControl" commands="KILL GLINE KLINE ZLINE QLINE ELINE TLINE RLINE CHECK NICKLOCK NICKUNLOCK SHUN CLONES CBAN" usermodes="*" chanmodes="*" snomasks="Xx">
+<class name="OperChat" commands="WALLOPS GLOBOPS" usermodes="*" chanmodes="*" privs="users/mass-message" snomasks="Gg">
+<class name="HostCloak" commands="SETHOST SETIDENT SETIDLE CHGNAME CHGHOST CHGIDENT" usermodes="*" chanmodes="*" privs="users/auspex">
+
+<type
+    # name: Name of the type. Used in actual server operator accounts below.
+    name="NetAdmin"
+
+    # classes: Classes (blocks above) that this type belongs to.
+    classes="SACommands OperChat BanControl HostCloak Shutdown ServerLink"
+
+    # vhost: Host that opers of this type get when they log in (oper up). This is optional.
+    #vhost="netadmin.omega.example.org"
+
+    # maxchans: Maximum number of channels opers of this type can be in at once.
+    maxchans="60"
+
+    # modes: User modes besides +o that are set on an oper of this type
+    # when they oper up. Used for snomasks and other things.
+    # Requires the opermodes module to be loaded.
+    modes="+s +cCqQ">
+
+<type name="GlobalOp" classes="SACommands OperChat BanControl HostCloak ServerLink" vhost="serverop.omega.example.org">
+<type name="Helper" classes="HostCloak" vhost="helper.omega.example.org">
+
+
+# Operator account with a plaintext password.
+<oper
+      name="{{ oper_name }}"
+      password="{{ oper_pass }}"
+      host="{{ oper_hosts | join(' ') }}"
+      type="NetAdmin">

@@ -1,0 +1,23 @@
+# TLS (SSL) listener that binds on a TCP/IP endpoint:
+<bind address=""
+      port="7001"
+      type="servers"
+      sslprofile="Servers">
+
+# Plaintext listener that binds on a TCP/IP endpoint:
+<bind address=""
+      port="7000"
+      type="servers">
+
+{% for name, data in links.items() %}
+<link name="{{ name }}"
+      ipaddr="localhost"
+      port="7000"
+      allowmask="{{ data.incoming_masks | join(' ') }}"
+      sendpass="{{ data.sendpass }}"
+      recvpass="{{ data.recvpass }}">
+{% endfor %}
+
+{% for name in ulines %}
+<uline server="{{ name }}" silent="no">
+{% endfor %}

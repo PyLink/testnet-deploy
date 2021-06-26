@@ -1,0 +1,82 @@
+- name: Setup PyLink testnet
+  hosts: testnet
+  #become: yes
+  tasks:
+  - name: Create temporary config dir
+    file:
+      path: "{{ item }}"
+      state: directory
+      mode: "0700"
+    loop:
+      - "{{ config_root }}"
+      - "{{ config_root }}/certs"
+
+  - name: "Check that required vars are set"
+    fail:
+      msg: "oper_name is empty or not defined"
+    when: not oper_name
+
+  - name: "Check that required vars are set"
+    fail:
+      msg: "oper_hosts is empty or not defined"
+    when: not oper_hosts
+
+  - name: "Check that required vars are set"
+    fail:
+      msg: "oper_pass is empty or not defined"
+    when: not oper_pass
+
+  ### Self signed certificate
+  - name: Generate TLS certificate private key
+    community.crypto.openssl_privatekey:
+      path: "{{ config_root }}/certs/key.pem"
+      size: 4096
+      # XXX: not the greatest practice, but avoids having to copy the certs
+      # around and set their owner to match the container's expectations
+      mode: "0644"
+
+  - name: Generate TLS certificate signing request
+    community.crypto.openssl_csr:
+      path: "{{ config_root }}/certs/cert.csr"
+      privatekey_path: "{{ config_root }}/certs/key.pem"
+
+  - name: Generate self-signed TLS certificate
+    community.crypto.x509_certificate:
+      path: "{{ config_root }}/certs/cert.pem"
+      privatekey_path: "{{ config_root }}/certs/key.pem"
+      csr_path: "{{ config_root }}/certs/cert.csr"
+      provider: selfsigned
+
+  - name: Fetch predefined DH params
+    get_url:
+      url: https://ssl-config.mozilla.org/ffdhe4096.txt
+      dest: "{{ config_root }}/certs/dhparams.pem"
+
+  - name: Create intermediate config directories
+    file:
+      path: "{{ config_root }}/{{ item.path }}"
+      mode: "{{ item.mode }}"
+      state: directory
+    with_filetree: configs/
+    when: item.state == "directory"
+
+  - name: Upload config files
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ config_root }}/{{ item.path }}"
+      mode: "{{ item.mode }}"
+    with_filetree: configs/
+    when: item.state == "file" and not item.path.endswith(".j2")
+
+  - name: Template config files
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ config_root }}/{{ item.path | regex_replace('\\.j2$', '') }}"
+      mode: "{{ item.mode }}"
+    with_filetree: configs/
+    when: item.state == "file" and item.path.endswith(".j2")
+
+  - name: Print usage info
+    debug:
+      msg: "Created docker-compose.yml in {{ config_root }}"
+

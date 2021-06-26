@@ -1,0 +1,62 @@
+config_root: "/srv/testnet-irc"
+
+docker_compose_networks:
+
+### General settings
+### These are applied to all IRCds to simplify configuration
+network_name: "pylink-testnet"
+network_suffix: "testnet.local"
+links_trusted_ip:
+- 172.17.0.0/16  # docker default
+
+admin_name: "PyLink testnet"
+admin_nick: "{{ oper_name }}"
+admin_email: "none@email.invalid"
+
+# Set these in hosts.yml !!!
+# TODO: allow setting multiple oper blocks
+oper_name:
+oper_pass:
+oper_hosts:
+
+links:
+  "pylink.{{ network_suffix }}":
+    incoming_masks: "{{ links_trusted_ip }}"
+    recvpass: "examplePass"
+    sendpass: "examplePass"
+
+  "services.{{ network_suffix }}":
+    incoming_masks: "{{ links_trusted_ip }}"
+    recvpass: "services"
+    sendpass: "services"
+
+ulines:
+  - "services.{{ network_suffix }}"
+
+
+### IRCd-specific settings
+ircds:
+  inspircd:
+    server_name: "inspircd.{{ network_suffix }}"
+    server_id: "001"
+    server_desc: "InspIRCd Test Server"
+
+    service:
+      image: inspircd/inspircd-docker:3.10
+      restart: on-failure
+      volumes:
+        - "{{ config_root }}/inspircd:/inspircd/conf/"
+        - "{{ config_root }}/certs/cert.pem:/inspircd/conf/cert.pem:ro"
+        - "{{ config_root }}/certs/key.pem:/inspircd/conf/key.pem:ro"
+        - "{{ config_root }}/certs/dhparams.pem:/inspircd/conf/dhparams.pem:ro"
+        #- "{{ data_root }}/inspircd:/inspircd/data/"
+        # TODO: figure out SSL cert paths
+  # solanum:
+  #   service:
+  #     build:
+  #       context: dockerfiles/solanum
+  #     restart: on-failure
+  #     volumes:
+  #       - "{{ config_root }}/solanum:/usr/local/etc"
+  #       #- "{{ config_root }}/solanum:/certs"
+
