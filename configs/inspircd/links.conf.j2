@@ -9,10 +9,17 @@
       port="7000"
       type="servers">
 
-{% for name, data in links.items() %}
-<link name="{{ name }}"
-      ipaddr="localhost"
-      port="7000"
+{% set _links = links["global"] %}
+{% if "inspircd" in links %}
+{% set _dummy = _links.update(links["inspircd"]) %}
+{% endif %}
+{% for name, data in _links.items() %}
+<link name="{{ data.name }}"
+      ipaddr="{{ data.ip | default("localhost") }}"
+      port="{{ data.port | default(7000) }}"
+{% if data.ssl | default(False) %}
+      sslprofile="Servers"
+{% endif %}
       allowmask="{{ data.incoming_masks | join(' ') }}"
       sendpass="{{ data.sendpass }}"
       recvpass="{{ data.recvpass }}">

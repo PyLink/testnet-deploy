@@ -20,19 +20,22 @@ oper_pass:
 oper_hosts:
 
 links:
-  "pylink.{{ network_suffix }}":
-    incoming_masks: "{{ links_trusted_ip }}"
-    recvpass: "examplePass"
-    sendpass: "examplePass"
+  global:
+    # Note: it seems dict keys don't expand variables, so I put the server name into a name field
+    "pylink":
+      name: "pylink.{{ network_suffix }}"
+      incoming_masks: "{{ links_trusted_ip }}"
+      recvpass: "examplePass"
+      sendpass: "examplePass"
 
-  "services.{{ network_suffix }}":
-    incoming_masks: "{{ links_trusted_ip }}"
-    recvpass: "services"
-    sendpass: "services"
+    "services":
+      name: "services.{{ network_suffix }}"
+      incoming_masks: "{{ links_trusted_ip }}"
+      recvpass: "services"
+      sendpass: "services"
 
 ulines:
   - "services.{{ network_suffix }}"
-
 
 ### IRCd-specific settings
 ircds:
