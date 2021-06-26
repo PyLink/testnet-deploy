@@ -76,6 +76,20 @@
     with_filetree: configs/
     when: item.state == "file" and item.path.endswith(".j2")
 
+  - name: Create intermediate directories for Dockerfiles
+    file:
+      path: "{{ config_root }}/dockerfiles/{{ item.path | dirname }}"
+      state: directory
+    with_filetree: dockerfiles/
+    when: item.state == "file" and item.path.endswith("Dockerfile")
+
+  - name: Upload Dockerfiles
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ config_root }}/dockerfiles/{{ item.path }}"
+    with_filetree: dockerfiles/
+    when: item.state == "file" and item.path.endswith("Dockerfile")
+
   - name: Print usage info
     debug:
       msg: "Created docker-compose.yml in {{ config_root }}"

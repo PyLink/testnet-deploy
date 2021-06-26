@@ -1,0 +1,3 @@
+[submodule "dockerfiles/solanum"]
+	path = dockerfiles/solanum
+	url = https://github.com/atonist/solanum-docker

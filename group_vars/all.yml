@@ -53,13 +53,18 @@ ircds:
         - "{{ config_root }}/certs/key.pem:/inspircd/conf/key.pem:ro"
         - "{{ config_root }}/certs/dhparams.pem:/inspircd/conf/dhparams.pem:ro"
         #- "{{ data_root }}/inspircd:/inspircd/data/"
-        # TODO: figure out SSL cert paths
-  # solanum:
-  #   service:
-  #     build:
-  #       context: dockerfiles/solanum
-  #     restart: on-failure
-  #     volumes:
-  #       - "{{ config_root }}/solanum:/usr/local/etc"
-  #       #- "{{ config_root }}/solanum:/certs"
+
+  solanum:
+    server_name: "solanum.{{ network_suffix }}"
+    server_id: "26U"
+    server_desc: "Solanum Test Server"
+    network_name: "testnet-solanum"
+
+    service:
+      build:
+        context: dockerfiles/solanum
+      restart: on-failure
+      volumes:
+        - "{{ config_root }}/solanum:/usr/local/etc"
+        - "{{ config_root }}/certs/solanum:/certs:ro"
 
