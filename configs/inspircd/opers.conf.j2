@@ -68,10 +68,10 @@
 <type name="GlobalOp" classes="SACommands OperChat BanControl HostCloak ServerLink" vhost="serverop.omega.example.org">
 <type name="Helper" classes="HostCloak" vhost="helper.omega.example.org">
 
-
-# Operator account with a plaintext password.
+{% for oper in opers %}
 <oper
-      name="{{ oper_name }}"
-      password="{{ oper_pass }}"
-      host="{{ oper_hosts | join(' ') }}"
+      name="{{ oper.name }}"
+      password="{{ oper.pass }}"
+      host="{{ oper.hosts | join(' ') }}"
       type="NetAdmin">
+{% endfor %}

@@ -1,10 +1,11 @@
 testnet:
   hosts:
     TARGET.SERVER.ADDRESS:
-      oper_name: yourname
-      oper_pass: yourpass
-      oper_hosts:
-      - "*@*.example.org"
+      opers:
+      - name: yourname
+        pass: yourpass
+        hosts:
+        - "*@*.example.org"
 
       # You can also append settings onto each "services:" entry in docker-compose
       # image_settings:

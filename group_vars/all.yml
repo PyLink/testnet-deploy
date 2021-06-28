@@ -9,15 +9,17 @@ links_trusted_ip:
 - 172.17.0.0/16  # docker default
 
 admin_name: "PyLink testnet"
-admin_nick: "{{ oper_name }}"
+admin_nick: "{{ opers[0].name }}"
 admin_email: "none@email.invalid"
 
 # Set these in hosts.yml !!!
-# TODO: allow setting multiple oper blocks
-oper_name:
-oper_pass:
-oper_hosts:
-
+opers:
+- name: foo
+  pass: bar
+  hosts: ["*@*.example.com", "*!*@example.net"]
+exempt_hosts:
+  - "*@127.0.0.0/8"
+  - "*@0::1"
 links:
   global:
     # Note: it seems dict keys don't expand variables, so I put the server name into a name field

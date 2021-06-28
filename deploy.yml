@@ -13,18 +13,8 @@
 
   - name: "Check that required vars are set"
     fail:
-      msg: "oper_name is empty or not defined"
-    when: not oper_name
-
-  - name: "Check that required vars are set"
-    fail:
-      msg: "oper_hosts is empty or not defined"
-    when: not oper_hosts
-
-  - name: "Check that required vars are set"
-    fail:
-      msg: "oper_pass is empty or not defined"
-    when: not oper_pass
+      msg: "opers is empty or not defined"
+    when: not opers
 
   ### Self signed certificate
   - name: Generate TLS certificate private key

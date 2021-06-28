@@ -495,12 +495,12 @@
 
 <badnick nick="*Serv"
          reason="Reserved for services">
+
+{% for host in exempt_hosts %}
 <exception
-           host="*@127.0.0.0/8"
-           reason="localhost">
-<exception
-           host="*@0::1"
-           reason="localhost">
+           host="{{ host }}"
+           reason="configured in exempt_hosts">
+{% endfor %}
 
 #-#-#-#-#-#-#-#-#-#-#- INSANE BAN OPTIONS  -#-#-#-#-#-#-#-#-#-#-#-#-#-#
 #                                                                     #

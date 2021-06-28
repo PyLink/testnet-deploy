@@ -184,7 +184,7 @@ auth {
 	 * prepending a 0 if it starts with a colon) and can also use CIDR
 	 * masks.
 	 */
-{% for host in oper_hosts %}
+{% for host in exempt_hosts %}
 	user = "{{ host }}";
 {% endfor %}
 	/* password: an optional password that is required to use this block.
@@ -256,14 +256,15 @@ privset "admin" {
 	privs = oper:admin, oper:die, oper:rehash, oper:spy, oper:grant;
 };
 
-operator "{{ oper_name }}" {
+{% for oper in opers %}
+operator "{{ oper.name }}" {
 	/* name: the name of the oper must go above */
 
 	/* user: the user@host required for this operator.  CIDR *is*
 	 * supported now. auth{} spoofs work here, other spoofs do not.
  	 * multiple user="" lines are supported.
 	 */
-{% for host in oper_hosts %}
+{% for host in oper.hosts %}
 	user = "{{ host }}";
 {% endfor %}
 
@@ -271,7 +272,7 @@ operator "{{ oper_name }}" {
 	 * contained in flags = ...; this will need to be encrypted using
 	 * mkpasswd, MD5 is supported
 	 */
-	password = "{{ oper_pass }}";
+	password = "{{ oper.pass }}";
 
 	/* rsa key: the public key for this oper when using Challenge.
 	 * A password should not be defined when this is used, see
@@ -307,10 +308,9 @@ operator "{{ oper_name }}" {
 	 * need_ssl:     must be using SSL/TLS to oper up
 	 */
 	flags = ~encrypted;
-
-	/* privset: privileges set to grant */
 	privset = "admin";
 };
+{% endfor %}
 
 {% set _links = links["global"] %}
 {% if "solanum" in links %}
