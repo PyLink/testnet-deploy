@@ -35,4 +35,5 @@ RUN cd ~/unrealircd-$UNREAL_VERSION && \
 
 VOLUME /home/ircd/unrealircd/conf
 
-CMD ["/home/ircd/unrealircd/unrealircd", "start"]
+# -F: foreground mode (undocumented?)
+CMD ["/home/ircd/unrealircd/bin/unrealircd", "-F"]

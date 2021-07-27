@@ -68,5 +68,22 @@ ircds:
       restart: on-failure
       volumes:
         - "{{ config_root }}/solanum:/usr/local/etc"
-        - "{{ config_root }}/certs/solanum:/certs:ro"
+        - "{{ config_root }}/certs:/certs:ro"
+
+  unreal:
+    server_name: "unreal.{{ network_suffix }}"
+    server_id: "0UN"
+    server_desc: "UnrealIRCd Test Server"
+    network_name: "testnet-unreal"
+
+    service:
+      build:
+        context: dockerfiles/unreal
+        args:
+          UNREAL_VERSION: 5.2.1.1
+      restart: on-failure
+      volumes:
+        - "{{ config_root }}/unreal/unrealircd.conf:/home/ircd/unrealircd/conf/unrealircd.conf:ro"
+        - "{{ config_root }}/certs/cert.pem:/home/ircd/unrealircd/conf/tls/server.cert.pem:ro"
+        - "{{ config_root }}/certs/key.pem:/home/ircd/unrealircd/conf/tls/server.key.pem:ro"
 
