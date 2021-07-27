@@ -38,6 +38,10 @@ links:
 ulines:
   - "services.{{ network_suffix }}"
 
+# Autojoin channels for users and opers, on supported IRCds
+auto_join: ["#testnet"]
+auto_join_opers: ["#opers"]
+
 ### IRCd-specific settings
 ircds:
   inspircd:

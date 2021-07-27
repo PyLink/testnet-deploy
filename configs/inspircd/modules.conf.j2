@@ -48,6 +48,12 @@
 #       ignorecase="no">
 
 <module name="commonchans">
+
+{% if auto_join %}
+<module name="conn_join">
+<autojoin channel="{{ auto_join | join(',') }}">
+{% endif %}
+
 <module name="conn_umodes">
 <module name="conn_waitpong">
 <waitpong sendsnotice="no" killonbadreply="yes">
@@ -276,6 +282,13 @@
 <module name="operlog">
 <module name="override">
 <override noisy="yes" requirekey="no" enableumode="yes">
+
+{% if auto_join_opers %}
+<module name="operjoin">
+<operjoin channel="{{ auto_join_opers | join(',') }}"
+          override="yes">
+{% endif %}
+
 <module name="opermodes">
 
 #<module name="passforward">
