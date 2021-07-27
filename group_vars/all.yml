@@ -42,6 +42,10 @@ ulines:
 auto_join: ["#testnet"]
 auto_join_opers: ["#opers"]
 
+# Cloak prefix (InspIRCd, UnrealIRCd)
+# Cloak keys are automatically generated and placed in credentials/
+cloak_prefix: "hidden"
+
 ### IRCd-specific settings
 ircds:
   inspircd:

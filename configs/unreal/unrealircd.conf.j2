@@ -373,7 +373,7 @@ set {
 	services-server 	"{{ ulines[0] if ulines|length >= 1 else "not.available" }}";
 	stats-server 		"{{ ulines[0] if ulines|length >= 1 else "not.available" }}";
 	help-channel 		"#Help";
-	hiddenhost-prefix	"hidden";
+	hiddenhost-prefix	"{{ cloak_prefix }}";
 	prefix-quit 		"Quit";
 
 	/* Cloak keys should be the same at all servers on the network.

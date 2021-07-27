@@ -40,7 +40,7 @@
   - name: Generate cloak keys
     set_fact:
       cloak_keys:
-        # TODO: do this for inspircd too
+        inspircd: "{{ lookup('password', 'credentials/' + inventory_hostname + '/inspircd_cloak ascii_letters,digits length=100') }}"
         unreal1: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak1 ascii_letters,digits length=100') }}"
         unreal2: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak2 ascii_letters,digits length=100') }}"
         unreal3: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak3 ascii_letters,digits length=100') }}"

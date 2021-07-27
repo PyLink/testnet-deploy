@@ -35,16 +35,16 @@
 <module name="classban">
 <module name="clearchan">
 
-#<module name="cloaking">
-#<cloak mode="half"
-#       key="changeme"
-#       domainparts="3"
-#       prefix="net-"
-#       ignorecase="no">
-#
+<module name="cloaking">
+<cloak mode="half"
+       key="{{ cloak_keys.inspircd }}"
+       domainparts="3"
+       prefix="{{ cloak_prefix }}-"
+       ignorecase="no">
+
 #<cloak mode="full"
-#       key="changeme"
-#       prefix="net-"
+#       key="{{ cloak_keys.inspircd }}"
+#       prefix="{{ cloak_prefix }}-"
 #       ignorecase="no">
 
 <module name="commonchans">
