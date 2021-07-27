@@ -40,10 +40,10 @@
   - name: Generate cloak keys
     set_fact:
       cloak_keys:
-        inspircd: "{{ lookup('password', 'credentials/' + inventory_hostname + '/inspircd_cloak ascii_letters,digits length=100') }}"
-        unreal1: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak1 ascii_letters,digits length=100') }}"
-        unreal2: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak2 ascii_letters,digits length=100') }}"
-        unreal3: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak3 ascii_letters,digits length=100') }}"
+        inspircd: "{{ lookup('password', 'credentials/' + inventory_hostname + '/inspircd_cloak chars=ascii_letters,digits length=100') }}"
+        unreal1: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak1 chars=ascii_letters,digits length=100') }}"
+        unreal2: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak2 chars=ascii_letters,digits length=100') }}"
+        unreal3: "{{ lookup('password', 'credentials/' + inventory_hostname + '/unreal_cloak3 chars=ascii_letters,digits length=100') }}"
 
   - name: Fetch predefined DH params
     get_url:
