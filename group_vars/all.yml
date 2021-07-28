@@ -103,3 +103,18 @@ ircds:
         - "{{ config_root }}/certs/cert.pem:/home/ircd/unrealircd/conf/tls/server.cert.pem:ro"
         - "{{ config_root }}/certs/key.pem:/home/ircd/unrealircd/conf/tls/server.key.pem:ro"
 
+
+  # nefarious:
+  #   server_name: "nefarious.{{ network_suffix }}"
+  #   server_id: 123
+  #   server_desc: "Nefarious Test Server"
+  #   network_name: "testnet-nefarious"
+
+  #   service:
+  #     build:
+  #       context: dockerfiles/nefarious
+  #     restart: on-failure
+  #     volumes:
+  #       - "{{ config_root }}/unreal/unrealircd.conf:/home/ircd/unrealircd/conf/unrealircd.conf:ro"
+  #       - "{{ config_root }}/certs/cert.pem:/home/ircd/unrealircd/conf/tls/server.cert.pem:ro"
+  #       - "{{ config_root }}/certs/key.pem:/home/ircd/unrealircd/conf/tls/server.key.pem:ro"
