@@ -573,6 +573,12 @@
 <sslmodes enableumode="yes">
 <module name="sslrehashsignal">
 <module name="ssl_gnutls">
+<sslprofile name="Clients"
+            provider="gnutls"
+            certfile="cert.pem"
+            dhfile="dhparams.pem"
+            hash="sha256"
+            keyfile="key.pem">
 
 <module name="sslinfo">
 <module name="svshold">
