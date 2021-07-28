@@ -46,6 +46,13 @@ auto_join_opers: ["#opers"]
 # Cloak keys are automatically generated and placed in credentials/
 cloak_prefix: "hidden"
 
+# Options for self-signed TLS cert
+cert_options:
+  country_name: CA
+  organization_name: "{{ admin_name }}"
+  email_address: "{{ admin_email }}"
+  common_name: "{{ network_suffix }}"
+
 ### IRCd-specific settings
 ircds:
   inspircd:
@@ -54,6 +61,7 @@ ircds:
     server_desc: "InspIRCd Test Server"
     network_name: "testnet-insp"
 
+    # Docker-compose service stanza for each server
     service:
       image: inspircd/inspircd-docker:3.10
       restart: on-failure

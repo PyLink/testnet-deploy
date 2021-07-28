@@ -30,6 +30,11 @@
       path: "{{ config_root }}/certs/cert.csr"
       privatekey_path: "{{ config_root }}/certs/key.pem"
 
+      country_name: "{{ cert_options.country_name }}"
+      organization_name: "{{ cert_options.organization_name }}"
+      email_address: "{{ cert_options.email_address }}"
+      common_name: "{{ cert_options.common_name }}"
+
   - name: Generate self-signed TLS certificate
     community.crypto.x509_certificate:
       path: "{{ config_root }}/certs/cert.pem"
