@@ -563,6 +563,7 @@ Connect {
  password = "{{ data.recvpass if data.recvpass == data.sendpass | mandatory("Nefarious requires matching recv / send link passwords") }}";
  port = {{ data.port | default(7000) }};
  class = "Server";
+ autoconnect = no;
  hub;
 };
 {% endfor %}
@@ -721,11 +722,11 @@ Port {
 };
 
 # This is an IPv4-only Server port that is Hidden
-Port {
- server = yes;
- hidden = yes;
- port = ipv4 4401;
-};
+#Port {
+# server = yes;
+# hidden = yes;
+# port = ipv4 4401;
+#};
 
 # The following are normal client ports
 Port { port = 6667; };
