@@ -1,15 +1,15 @@
 version: '3.7'
 
 services:
-{% for server, details in ircds.items() %}
+{% for server, details in docker_compose_services.items() %}
   {{ server }}:
-{% set service_block = details.service %}
+{% set service_block = details %}
 {# Allow overriding docker-compose service options globally and per container #}
-{% if image_settings and "global" in image_settings %}
-{% set _dummy = service_block.update(image_settings.global) %}
+{% if service_overrides and "global" in service_overrides %}
+{% set _dummy = service_block.update(service_settings.global) %}
 {% endif %}
-{% if image_settings and server in image_settings %}
-{% set _dummy = service_block.update(image_settings[server]) %}
+{% if service_overrides and server in service_overrides %}
+{% set _dummy = service_block.update(service_overrides[server]) %}
 {% endif %}
     {{ service_block | to_yaml | indent(width=4) }}
 {% endfor %}

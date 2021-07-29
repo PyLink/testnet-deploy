@@ -48,10 +48,10 @@ loadmodule "extensions/ip_cloaking_4.0";
 #loadmodule "extensions/ip_cloaking";
 
 serverinfo {
-	name = "{{ ircds.solanum.server_name }}";
-	sid = "{{ ircds.solanum.server_id }}";
-	description = "{{ ircds.solanum.server_desc }}";
-	network_name = "{{ ircds.solanum.network_name }}";
+	name = "{{ solanum_options.server_name }}";
+	sid = "{{ solanum_options.server_id }}";
+	description = "{{ solanum_options.server_desc }}";
+	network_name = "{{ solanum_options.network_name }}";
 
 	/* On multi-homed hosts you may need the following. These define
 	 * the addresses we connect from to other servers. */

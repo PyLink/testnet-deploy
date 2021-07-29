@@ -8,7 +8,7 @@ testnet:
         - "*@*.example.org"
 
       # You can also append settings onto each "services:" entry in docker-compose
-      # image_settings:
+      # service_overrides:
       #   inspircd:
       #     networks:
       #       default:

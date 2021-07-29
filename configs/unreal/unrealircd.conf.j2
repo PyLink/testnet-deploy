@@ -58,9 +58,9 @@ include "operclass.default.conf";
  * have it's own sid).
  */
 me {
-	name "{{ ircds.unreal.server_name }}";
-	info "{{ ircds.unreal.server_desc }}";
-	sid "{{ ircds.unreal.server_id }}";
+	name "{{ unreal_options.server_name }}";
+	info "{{ unreal_options.server_desc }}";
+	sid "{{ unreal_options.server_id }}";
 }
 
 /* The admin { } block defines what users will see if they type /ADMIN.
@@ -234,8 +234,8 @@ ulines {
  * restarts and server kills.
  */
 drpass {
-	restart "{{ ircds.unreal.server_name }}";
-	die "{{ ircds.unreal.server_name }}";
+	restart "{{ unreal_options.server_name }}";
+	die "{{ unreal_options.server_name }}";
 }
 
 /* The log block defines what should be logged and to what file.
@@ -368,8 +368,8 @@ blacklist efnetrbl {
 
 /* Network configuration */
 set {
-	network-name 		"{{ ircds.unreal.network_name }}";
-	default-server 		"{{ ircds.unreal.server_name }}";
+	network-name 		"{{ unreal_options.network_name }}";
+	default-server 		"{{ unreal_options.server_name }}";
 	services-server 	"{{ ulines[0] if ulines|length >= 1 else "not.available" }}";
 	stats-server 		"{{ ulines[0] if ulines|length >= 1 else "not.available" }}";
 	help-channel 		"#Help";

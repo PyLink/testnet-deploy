@@ -46,6 +46,9 @@ auto_join_opers: ["#opers"]
 # Cloak keys are automatically generated and placed in credentials/
 cloak_prefix: "hidden"
 
+# Cloak suffixes (IRCu variants)
+cloak_suffix: "users.{{ network_suffix }}"
+
 # Options for self-signed TLS cert
 cert_options:
   country_name: CA
@@ -54,67 +57,57 @@ cert_options:
   common_name: "{{ network_suffix }}"
 
 ### IRCd-specific settings
-ircds:
-  inspircd:
-    server_name: "inspircd.{{ network_suffix }}"
-    server_id: "001"
-    server_desc: "InspIRCd Test Server"
-    network_name: "testnet-insp"
+inspircd_options:
+  server_name: "inspircd.{{ network_suffix }}"
+  server_id: "001"
+  server_desc: "InspIRCd Test Server"
+  network_name: "testnet-insp"
+solanum_options:
+  server_name: "solanum.{{ network_suffix }}"
+  server_id: "26U"
+  server_desc: "Solanum Test Server"
+  network_name: "testnet-solanum"
+unreal_options:
+  server_name: "unreal.{{ network_suffix }}"
+  server_id: "0UN"
+  server_desc: "UnrealIRCd Test Server"
+  network_name: "testnet-unreal"
+nefarious_options:
+  server_name: "nefarious.{{ network_suffix }}"
+  server_id: 123
+  server_desc: "Nefarious Test Server"
+  network_name: "testnet-nefarious"
+  oper_cloak_suffix: ""  # Account cloak suffix for opers; leave empty to disable
+  cloak_style: 3
 
-    # Docker-compose service stanza for each server
-    service:
-      image: inspircd/inspircd-docker:3.10
-      restart: on-failure
-      volumes:
-        - "{{ config_root }}/inspircd:/inspircd/conf/"
-        - "{{ config_root }}/certs/cert.pem:/inspircd/conf/cert.pem:ro"
-        - "{{ config_root }}/certs/key.pem:/inspircd/conf/key.pem:ro"
-        - "{{ config_root }}/certs/dhparams.pem:/inspircd/conf/dhparams.pem:ro"
-        #- "{{ data_root }}/inspircd:/inspircd/data/"
+# Docker-compose service stanzas for each IRCd
+docker_compose_services:
+  inspircd:
+    image: inspircd/inspircd-docker:3.10
+    restart: on-failure
+    volumes:
+      - "{{ config_root }}/inspircd:/inspircd/conf/"
+      - "{{ config_root }}/certs/cert.pem:/inspircd/conf/cert.pem:ro"
+      - "{{ config_root }}/certs/key.pem:/inspircd/conf/key.pem:ro"
+      - "{{ config_root }}/certs/dhparams.pem:/inspircd/conf/dhparams.pem:ro"
+      #- "{{ data_root }}/inspircd:/inspircd/data/"
 
   solanum:
-    server_name: "solanum.{{ network_suffix }}"
-    server_id: "26U"
-    server_desc: "Solanum Test Server"
-    network_name: "testnet-solanum"
-
-    service:
-      build:
-        context: dockerfiles/solanum
-      restart: on-failure
-      volumes:
-        - "{{ config_root }}/solanum:/usr/local/etc"
-        - "{{ config_root }}/certs:/certs:ro"
+    build:
+      context: dockerfiles/solanum
+    restart: on-failure
+    volumes:
+      - "{{ config_root }}/solanum:/usr/local/etc"
+      - "{{ config_root }}/certs:/certs:ro"
 
   unreal:
-    server_name: "unreal.{{ network_suffix }}"
-    server_id: "0UN"
-    server_desc: "UnrealIRCd Test Server"
-    network_name: "testnet-unreal"
+    build:
+      context: dockerfiles/unreal
+      args:
+        UNREAL_VERSION: 5.2.1.1
+    restart: on-failure
+    volumes:
+      - "{{ config_root }}/unreal/unrealircd.conf:/home/ircd/unrealircd/conf/unrealircd.conf:ro"
+      - "{{ config_root }}/certs/cert.pem:/home/ircd/unrealircd/conf/tls/server.cert.pem:ro"
+      - "{{ config_root }}/certs/key.pem:/home/ircd/unrealircd/conf/tls/server.key.pem:ro"
 
-    service:
-      build:
-        context: dockerfiles/unreal
-        args:
-          UNREAL_VERSION: 5.2.1.1
-      restart: on-failure
-      volumes:
-        - "{{ config_root }}/unreal/unrealircd.conf:/home/ircd/unrealircd/conf/unrealircd.conf:ro"
-        - "{{ config_root }}/certs/cert.pem:/home/ircd/unrealircd/conf/tls/server.cert.pem:ro"
-        - "{{ config_root }}/certs/key.pem:/home/ircd/unrealircd/conf/tls/server.key.pem:ro"
-
-
-  # nefarious:
-  #   server_name: "nefarious.{{ network_suffix }}"
-  #   server_id: 123
-  #   server_desc: "Nefarious Test Server"
-  #   network_name: "testnet-nefarious"
-
-  #   service:
-  #     build:
-  #       context: dockerfiles/nefarious
-  #     restart: on-failure
-  #     volumes:
-  #       - "{{ config_root }}/unreal/unrealircd.conf:/home/ircd/unrealircd/conf/unrealircd.conf:ro"
-  #       - "{{ config_root }}/certs/cert.pem:/home/ircd/unrealircd/conf/tls/server.cert.pem:ro"
-  #       - "{{ config_root }}/certs/key.pem:/home/ircd/unrealircd/conf/tls/server.key.pem:ro"
