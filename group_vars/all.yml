@@ -111,3 +111,12 @@ docker_compose_services:
       - "{{ config_root }}/certs/cert.pem:/home/ircd/unrealircd/conf/tls/server.cert.pem:ro"
       - "{{ config_root }}/certs/key.pem:/home/ircd/unrealircd/conf/tls/server.key.pem:ro"
 
+  nefarious:
+    build:
+      context: dockerfiles/nefarious
+    restart: on-failure
+    volumes:
+      - "{{ config_root }}/nefarious/ircd.conf:/home/ircd/ircd/lib/ircd.conf"
+      - "{{ config_root }}/certs/cert.pem:/home/ircd/ircd/lib/cert.pem:ro"
+      - "{{ config_root }}/certs/key.pem:/home/ircd/ircd/lib/key.pem:ro"
+

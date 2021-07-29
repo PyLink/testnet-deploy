@@ -61,9 +61,9 @@
 # In most cases, you do not need to specify either the dns vhost or
 # the dns server.
 General {
-         name = "{{ ircds.nefarious.server_name }}";
-         description = "{{ ircds.nefarious.server_desc }}";
-         numeric = {{ ircds.nefarious.server_id }};
+         name = "{{ nefarious_options.server_name }}";
+         description = "{{ nefarious_options.server_desc }}";
+         numeric = {{ nefarious_options.server_id }};
 };
 
 # [Admin]
@@ -314,7 +314,7 @@ Class {
 Client {
  host = "*@*";
  ip = "*@*";
- class = "Local";
+ class = "Clients";
  maxlinks = 10;
 {% if auto_join %}
  autojoinchannel = "{{ auto_join | join(',') }}";
@@ -894,7 +894,16 @@ Pseudo "AUTHSERV" {
 # matching clients from connection throttling and IP limits. The targetlimit
 # type exempts matching clients from the message target limits.
 
-# TODO: rest of this config
+{% for host in exempt_hosts %}
+Except {
+  host = "{{ host }}";
+  shun = yes;
+  kline = yes;
+  gline = yes;
+  ipcheck = yes;
+  targetlimit = yes;
+};
+{% endfor %}
 
 # [features]
 # IRC servers have a large number of options and features.  Most of these
@@ -920,7 +929,7 @@ features
 # explanation of how they work, see doc/readme.log.
  "LOG" = "SYSTEM" "FILE" "ircd.log";
  "LOG" = "SYSTEM" "LEVEL" "CRIT";
-#  "DOMAINNAME"="<obtained from /etc/resolv.conf by ./configure>";
+ "DOMAINNAME"="{{ network_suffix }}";
 #  "RELIABLE_CLOCK"="FALSE";
 #  "BUFFERPOOL"="27000000";
 #  "HAS_FERGUSON_FLUSHER"="FALSE";
@@ -930,19 +939,19 @@ features
 #  "MOTD_BANNER"="";
 #  "KILL_IPMISMATCH"="FALSE";
 #  "IDLE_FROM_MSG"="TRUE";
-#  "HUB"="FALSE";
+ "HUB"="TRUE";
 #  "WALLOPS_OPER_ONLY"="FALSE";
 #  "NODNS"="FALSE";
 #  "RANDOM_SEED"="<you should set one explicitly>";
 #  "DEFAULT_LIST_PARAM"="";
 #  "NICKNAMEHISTORYLENGTH"="800";
-#  "NETWORK"="Nefarious";
-#  "HOST_HIDING"="FALSE";
-#  "HIDDEN_HOST"="users.undernet.org";
+ "NETWORK"="{{ nefarious_options.network_name }}";
+ "HOST_HIDING"="TRUE";
+ "HIDDEN_HOST"="{{ cloak_suffix }}";
 #  "HIDDEN_IP"="127.0.0.1";
 #  "KILLCHASETIMELIMIT"="30";
 #  "MAXCHANNELSPERUSER"="10";
-#  "NICKLEN" = "12";
+ "NICKLEN" = "20";
 #  "AVBANLEN"="40";
 #  "MAXBANS"="50";
 #  "MAXSILES"="15";
@@ -972,59 +981,57 @@ features
 #  "ZANNELS" = "TRUE";
 #  "LOCAL_CHANNELS" = "TRUE";
 #  "ANNOUNCE_INVITES" = "FALSE";
-#  These were introduced by Undernet CFV-165 to add "Head-In-Sand" (HIS)
-#  behavior to hide most network topology from users.
-#  "HIS_SNOTICES" = "TRUE";
-#  "HIS_SNOTICES_OPER_ONLY" = "TRUE";
-#  "HIS_DEBUG_OPER_ONLY" = "TRUE";
-#  "HIS_WALLOPS" = "TRUE";
-#  "HIS_MAP" = "TRUE";
-#  "HIS_LINKS" = "TRUE";
-#  "HIS_TRACE" = "TRUE";
-#  "HIS_STATS_a" = "TRUE";
-#  "HIS_STATS_c" = "TRUE";
-#  "HIS_STATS_d" = "TRUE";
-#  "HIS_STATS_e" = "TRUE";
-#  "HIS_STATS_f" = "TRUE";
-#  "HIS_STATS_g" = "TRUE";
-#  "HIS_STATS_i" = "TRUE";
-#  "HIS_STATS_j" = "TRUE";
-#  "HIS_STATS_J" = "TRUE";
-#  "HIS_STATS_k" = "TRUE";
-#  "HIS_STATS_l" = "TRUE";
-#  "HIS_STATS_L" = "TRUE";
-#  "HIS_STATS_m" = "TRUE";
-#  "HIS_STATS_M" = "TRUE";
-#  "HIS_STATS_o" = "TRUE";
-#  "HIS_STATS_p" = "TRUE";
-#  "HIS_STATS_q" = "TRUE";
-#  "HIS_STATS_r" = "TRUE";
-#  "HIS_STATS_R" = "TRUE";
-#  "HIS_STATS_S" = "TRUE";
-#  "HIS_STATS_t" = "TRUE";
-#  "HIS_STATS_T" = "TRUE";
-#  "HIS_STATS_u" = "FALSE";
-#  "HIS_STATS_U" = "TRUE";
-#  "HIS_STATS_v" = "TRUE";
-#  "HIS_STATS_w" = "TRUE";
-#  "HIS_STATS_x" = "TRUE";
-#  "HIS_STATS_y" = "TRUE";
-#  "HIS_STATS_z" = "TRUE";
-#  "HIS_STATS_IAUTH" = "TRUE";
-#  "HIS_WHOIS_SERVERNAME" = "TRUE";
-#  "HIS_WHOIS_IDLETIME" = "TRUE";
-#  "HIS_WHOIS_LOCALCHAN" = "TRUE";
-#  "HIS_WHO_SERVERNAME" = "TRUE";
-#  "HIS_WHO_HOPCOUNT" = "TRUE";
-#  "HIS_MODEWHO" = "TRUE";
-#  "HIS_BANWHO" = "TRUE";
-#  "HIS_KILLWHO" = "FALSE";
-#  "HIS_REWRITE" = "TRUE";
-#  "HIS_REMOTE" = "TRUE";
-#  "HIS_NETSPLIT" = "TRUE";
-#  "HIS_SERVERNAME" = "*.undernet.org";
-#  "HIS_SERVERINFO" = "The Undernet Underworld";
-#  "HIS_URLSERVERS" = "http://www.undernet.org/servers.php";
+ "HIS_SNOTICES" = "FALSE";
+ "HIS_SNOTICES_OPER_ONLY" = "FALSE";
+ "HIS_DEBUG_OPER_ONLY" = "FALSE";
+ "HIS_WALLOPS" = "FALSE";
+ "HIS_MAP" = "FALSE";
+ "HIS_LINKS" = "FALSE";
+ "HIS_TRACE" = "FALSE";
+ "HIS_STATS_a" = "FALSE";
+ "HIS_STATS_c" = "FALSE";
+ "HIS_STATS_d" = "FALSE";
+ "HIS_STATS_e" = "FALSE";
+ "HIS_STATS_f" = "FALSE";
+ "HIS_STATS_g" = "FALSE";
+ "HIS_STATS_i" = "FALSE";
+ "HIS_STATS_j" = "FALSE";
+ "HIS_STATS_J" = "FALSE";
+ "HIS_STATS_k" = "FALSE";
+ "HIS_STATS_l" = "FALSE";
+ "HIS_STATS_L" = "FALSE";
+ "HIS_STATS_m" = "FALSE";
+ "HIS_STATS_M" = "FALSE";
+ "HIS_STATS_o" = "FALSE";
+ "HIS_STATS_p" = "FALSE";
+ "HIS_STATS_q" = "FALSE";
+ "HIS_STATS_r" = "FALSE";
+ "HIS_STATS_R" = "FALSE";
+ "HIS_STATS_S" = "FALSE";
+ "HIS_STATS_t" = "FALSE";
+ "HIS_STATS_T" = "FALSE";
+ "HIS_STATS_u" = "FALSE";
+ "HIS_STATS_U" = "FALSE";
+ "HIS_STATS_v" = "FALSE";
+ "HIS_STATS_w" = "FALSE";
+ "HIS_STATS_x" = "FALSE";
+ "HIS_STATS_y" = "FALSE";
+ "HIS_STATS_z" = "FALSE";
+ "HIS_STATS_IAUTH" = "FALSE";
+ "HIS_WHOIS_SERVERNAME" = "FALSE";
+ "HIS_WHOIS_IDLETIME" = "FALSE";
+ "HIS_WHOIS_LOCALCHAN" = "FALSE";
+ "HIS_WHO_SERVERNAME" = "FALSE";
+ "HIS_WHO_HOPCOUNT" = "FALSE";
+ "HIS_MODEWHO" = "FALSE";
+ "HIS_BANWHO" = "FALSE";
+ "HIS_KILLWHO" = "FALSE";
+ "HIS_REWRITE" = "FALSE";
+ "HIS_REMOTE" = "FALSE";
+ "HIS_NETSPLIT" = "FALSE";
+#  "HIS_SERVERNAME" = "*.{{ network_suffix }}";
+#  "HIS_SERVERINFO" = "{{ nefarious_options.server_desc }}";
+#  "HIS_URLSERVERS" = "http://localhost/";
 #  "URLREG" = "http://cservice.undernet.org/live/";
 #  "CHECK" = "TRUE";
 #  "CHECK_EXTENDED" = "TRUE";
@@ -1034,8 +1041,8 @@ features
 #  "AUTOCHANMODES" = "FALSE";
 #  "AUTOCHANMODES_LIST" = "";
 #  "UHNAMES" = "TRUE";
-#  "RESTARTPASS" = "";
-#  "DIEPASS" = "";
+ "RESTARTPASS" = "{{ nefarious_options.server_name }}";
+ "DIEPASS" = "{{ nefarious_options.server_name }}";
 #  "HIS_STATS_W" = "TRUE";
 #  "WHOIS_OPER" = "is an IRC Operator";
 #  "WHOIS_SERVICE" = "is a Network Service";
@@ -1058,7 +1065,7 @@ features
 #  "APASS_CANSEND" = "FALSE";
 #  "HOST_IN_TOPIC" = "TRUE";
 #  "HIS_STATS_s" = "TRUE";
-#  "SETHOST" = "TRUE";
+ "SETHOST" = "TRUE";
 #  "FLEXIBLEKEYS" = "FALSE";
 #  "HIS_STATS_E" = "TRUE";
 #  "SASL_SERVER" = "*";
@@ -1095,8 +1102,8 @@ features
 #  "CHMODE_S" = "TRUE";
 #  "CHMODE_T" = "TRUE";
 #  "CHMODE_Z" = "TRUE";
-#  "HALFOPS" = "FALSE";
-#  "EXCEPTS" = "FALSE";
+ "HALFOPS" = "TRUE";
+ "EXCEPTS" = "TRUE";
 #  "MAXEXCEPTS" = "45";
 #  "AVEXCEPTLEN" = "40";
 #  "CHMODE_e_CHMODEEXCEPTION" = "FALSE";
@@ -1119,14 +1126,16 @@ features
 #  "HIDDEN_HOST_QUIT" = "TRUE";
 #  "HIDDEN_HOST_SET_MESSAGE" = "Registered";
 #  "HIDDEN_HOST_UNSET_MESSAGE" = "UnRegistered";
-#  "ALLOWRMX" = "FALSE";
-#  "OPERHOST_HIDING" = "TRUE";
-#  "HIDDEN_OPERHOST" = "Staff.Nefarious";
-#  "HOST_HIDING_STYLE" = "1";
-#  "HOST_HIDING_PREFIX" = "Nefarious";
-#  "HOST_HIDING_KEY1" = "aoAr1HnR6gl3sJ7hVz4Zb7x4YwpW";
-#  "HOST_HIDING_KEY2" = "sdfjkLJKHlkjdkfjsdklfjlkjKLJ";
-#  "HOST_HIDING_KEY3" = "KJklJSDFLkjLKDFJSLKjlKJFlkjS";
+  "ALLOWRMX" = "TRUE";
+{% if nefarious_options.oper_cloak_suffix %}
+  "OPERHOST_HIDING" = "TRUE";
+  "HIDDEN_OPERHOST" = "{{ nefarious_options.oper_cloak_suffix }}";
+{% endif %}
+  "HOST_HIDING_STYLE" = "{{ nefarious_options.cloak_style }}";
+  "HOST_HIDING_PREFIX" = "{{ cloak_prefix }}";
+  "HOST_HIDING_KEY1" = "{{ cloak_keys.unreal1 }}";
+  "HOST_HIDING_KEY2" = "{{ cloak_keys.unreal2 }}";
+  "HOST_HIDING_KEY3" = "{{ cloak_keys.unreal3 }}";
 #  "HOST_HIDING_COMPONENTS" = "1";
 #  "CTCP_VERSIONING" = "FALSE";
 #  "CTCP_VERSIONING_KILL" = "FALSE";
@@ -1139,8 +1148,8 @@ features
 #  "MMDB_FILE" = "GeoLite2-Country.mmdb";
 #  "GEOIP_FILE" = "GeoIP.dat";
 #  "GEOIP_IPV6_FILE" = "GeoIPv6.dat";
-#  "SSL_CERTFILE" = "ircd.pem";
-#  "SSL_KEYFILE" = "ircd.pem";
+ "SSL_CERTFILE" = "cert.pem";
+ "SSL_KEYFILE" = "key.pem";
 #  "SSL_CACERTFILE" = "";
 #  "SSL_VERIFYCERT" = "FALSE";
 #  "SSL_NOSELFSIGNED" = "FALSE";
@@ -1152,14 +1161,14 @@ features
 #  "DISABLE_ZLINES" = "FALSE";
 #  "HIS_ZLINE_REASON" = "FALSE";
 #  "ZLINEMAXUSERCOUNT" = "20";
-#  "CAP_multi_prefix" = "TRUE";
-#  "CAP_userhost_in_names" = "TRUE";
-#  "CAP_extended_join" = "TRUE";
-#  "CAP_away_notify" = "TRUE";
-#  "CAP_account_notify" = "TRUE";
-#  "CAP_sasl" = "TRUE";
-#  "CAP_tls" = "TRUE";
-#  "CONNEXIT_NOTICES" = "FALSE";
+ "CAP_multi_prefix" = "TRUE";
+ "CAP_userhost_in_names" = "TRUE";
+ "CAP_extended_join" = "TRUE";
+ "CAP_away_notify" = "TRUE";
+ "CAP_account_notify" = "TRUE";
+ "CAP_sasl" = "TRUE";
+ "CAP_tls" = "TRUE";
+ "CONNEXIT_NOTICES" = "TRUE";
 #  "UPING_ENABLE" = "TRUE";
 #  "UPING_PORT" = "7007";
 };
