@@ -6,6 +6,10 @@ testnet:
         pass: yourpass
         hosts:
         - "*@*.example.org"
+      links_trusted_ip:
+      # IP addresses to allow server links from
+      # In practice, IRCu and Solanum require that this is a single static IP (which is actually somewhat annoying for me ...)
+      - "your.ip.address"
 
       # You can also append settings onto each "services:" entry in docker-compose
       # service_overrides:
