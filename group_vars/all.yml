@@ -1,4 +1,4 @@
-config_root: "/srv/testnet-irc"
+config_root: "/opt/pylink-testnet"
 
 docker_compose_networks:
 
@@ -83,7 +83,7 @@ nefarious_options:
 # Docker-compose service stanzas for each IRCd
 docker_compose_services:
   inspircd:
-    image: inspircd/inspircd-docker:3.10
+    image: inspircd/inspircd-docker:3.11
     restart: on-failure
     volumes:
       - "{{ config_root }}/inspircd:/inspircd/conf/"

@@ -556,7 +556,7 @@ Jupe {
 {% set _dummy = _links.update(links["nefarious"]) %}
 {% endif %}
 {% for name, data in _links.items() %}
-# XXX: are multiple masks possible?
+{# XXX: are multiple incoming masks possible? #}
 Connect {
  name = "{{ data.name }}";
  host = "{{ data.incoming_masks[0] }}";
@@ -565,6 +565,9 @@ Connect {
  class = "Server";
  autoconnect = no;
  hub;
+{% if data.ssl | default(False) %}
+ ssl = yes;
+{% endif %}
 };
 {% endfor %}
 

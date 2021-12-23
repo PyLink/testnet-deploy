@@ -214,7 +214,7 @@ link {{ data.name }}
 {% endfor %}
         };
 	}
-	password "{{ data.recvpass if data.recvpass == data.sendpass | mandatory("UnrealIRCd only allows a matching recv / send link passwwprd")}}";
+	password "{{ data.recvpass if data.recvpass == data.sendpass | mandatory("UnrealIRCd only allows a matching recv / send link password")}}";
 	class servers;
 }
 {% endfor %}
