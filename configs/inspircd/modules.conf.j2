@@ -18,7 +18,7 @@
 <cban glob="yes">
 <module name="chancreate">
 <module name="chanfilter">
-<module name="chanhistory">                                                                   #
+<module name="chanhistory">
 <chanhistory bots="yes"
             enableumode="yes"
             maxlines="50"
@@ -574,6 +574,12 @@
 <module name="sslrehashsignal">
 <module name="ssl_gnutls">
 <sslprofile name="Clients"
+            provider="gnutls"
+            certfile="cert.pem"
+            dhfile="dhparams.pem"
+            hash="sha256"
+            keyfile="key.pem">
+<sslprofile name="Servers"
             provider="gnutls"
             certfile="cert.pem"
             dhfile="dhparams.pem"

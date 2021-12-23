@@ -1,13 +1,14 @@
 # TLS (SSL) listener that binds on a TCP/IP endpoint:
 <bind address=""
-      port="7001"
+      port="7005"
       type="servers"
       sslprofile="Servers">
 
 # Plaintext listener that binds on a TCP/IP endpoint:
 <bind address=""
-      port="7000"
+      port="7000,7001"
       type="servers">
+
 
 {% set _links = links["global"] %}
 {% if "inspircd" in links %}
